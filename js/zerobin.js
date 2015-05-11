@@ -199,7 +199,6 @@ function applySyntaxColoring() {
 }
 
 function addLineNumbers() {
-	return;
     cleartext = $('div#cleartext > pre > code');
     newtext = cleartext.html()
         .replace( /(\r?\n)/g, "</li>$1<li class=\"line\">");
@@ -223,7 +222,12 @@ function displayMessages(key, comments) {
             var mimeType = getMimeTypeFromDataURL(cleartext);
             var type = getFileTypeFromMimeType(mimeType);
             var isImage = isImageFromMimeType(mimeType);
+            var isText = isTextFromMimeType(mimeType);
 
+            if(isText)
+            {
+                addLineNumbers();
+            }
             document.getElementById('download').setAttribute('href', cleartext);
             document.getElementById('download').setAttribute('download', 'zerobin-attachment.' + type);
             document.getElementById('downloadButton').setAttribute('style', 'display:inline');
@@ -251,7 +255,7 @@ function displayMessages(key, comments) {
     } catch (err) {
         $('div#cleartext').hide();
         $('button#clonebutton').hide();
-        showError('Could not decrypt data (Wrong key ?)');
+        showError('Could not decrypt data (Wrong key?)');
         return;
     }
 
@@ -263,8 +267,7 @@ function displayMessages(key, comments) {
     if (comments[0].meta.syntaxcoloring)
     {
         applySyntaxColoring();	
-                addLineNumbers();
-
+        //addLineNumbers();
     }
     // Display paste expiration.
     if (comments[0].meta.expire_date)
@@ -280,7 +283,7 @@ function displayMessages(key, comments) {
         // For each comment.
         for (var i = 1; i < comments.length; i++) {
             var comment = comments[i];
-            var cleartext = "[Could not decrypt comment ; Wrong key ?]";
+            var cleartext = "[Could not decrypt comment - Wrong key?]";
             try {
                 cleartext = zeroDecipher(key, comment.data);
             } catch (err) {
@@ -328,9 +331,9 @@ function displayMessages(key, comments) {
 function open_reply(source, commentid) {
     $('div.reply').remove(); // Remove any other reply area.
     source.after('<div class="reply">'
-            + '<input type="text" id="nickname" title="Optional nickname..." value="Optional nickname..." />'
+            + '<input type="text" id="nickname" title="Optional nickname" value="Optional nickname" />'
             + '<textarea id="replymessage" class="replymessage" cols="80" rows="7"></textarea>'
-            + '<br><button id="replybutton" onclick="send_comment(\'' + commentid + '\');return false;">Post comment</button>'
+            + '<br><button id="replybutton" onclick="send_comment(\'' + commentid + '\');return false;">Post</button>'
             + '<div id="replystatus">&nbsp;</div>'
             + '</div>');
     $('input#nickname').focus(function() {
@@ -367,7 +370,7 @@ function send_comment(parentid) {
 
     $.post(scriptLocation(), data_to_send, 'json')
             .error(function() {
-        showError('Comment could not be sent (serveur error or not responding).');
+        showError('Comment could not be sent (server error or not responding).');
     })
             .success(function(data) {
         if (data.status == 0) {
@@ -430,7 +433,7 @@ function send_data() {
             var deleteUrl = scriptLocation() + "?pasteid=" + data.id + '&deletetoken=' + data.deletetoken;
             showStatus('');
 
-            $('div#pastelink').html('Your paste is <a id="pasteurl" href="' + url + '">' + url + '</a> <span id="copyhint">(Hit CTRL+C to copy)</span>');
+            $('div#pastelink').html('Your paste is <a id="pasteurl" href="' + url + '">' + url + '</a> <span id="copyhint">(Hit CTRL-C to copy)</span>');
             $('div#deletelink').html('<a href="' + deleteUrl + '">Delete link</a>');
             $('div#pasteresult').show();
             selectText('pasteurl'); // We pre-select the link so that the user only has to CTRL+C the link.
@@ -692,6 +695,13 @@ function isDataURL(str) {
  */
 function isImageFromMimeType(mimeType) {
     if (mimeType.match(/image\//i))
+        return true;
+
+    return false;
+}
+
+function isTextFromMimeType(mimeType) {
+    if (mimeType.match(/text\//i))
         return true;
 
     return false;
@@ -1210,8 +1220,8 @@ function getFileTypeFromMimeType(mime) {
         'audio/amr': 'amr',
         'audio/amr-wb': 'awb',
         'audio/amr':'amr',
-                'audio/amr-wb':'awb',
-                'audio/annodex': 'axa',
+        'audio/amr-wb':'awb',
+        'audio/annodex': 'axa',
         'audio/basic': 'au',
         'audio/csound': 'csd',
         'audio/flac': 'flac',

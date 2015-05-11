@@ -408,8 +408,12 @@ pre .line::before {
 }
 */
 pre ol {
-list-style:decimal outside none;
+    list-style:decimal outside none;
+    margin: 0;
+    padding: 0;
 }
 pre ol li {
-font-weight: normal; vertical-align:top;
+    font-weight: normal; vertical-align:top;
+    margin: 0;
+    padding: 0;
 }
