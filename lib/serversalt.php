@@ -72,4 +72,11 @@ function getPasteSalt( $pasteid )
     return getSaltFromFile($file);
 }
 
+
+function exit_error( $array )
+{
+    echo json_encode( $array );
+    exit;
+}
+
 ?>
