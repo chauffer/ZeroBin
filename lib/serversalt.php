@@ -68,7 +68,7 @@ function getPasteSalt( $pasteid )
 {
     global $aConfig;
 
-    $file = dataid2path ( $pasteid ).$pasteid.$aConfig[ 'salt_append '];
+    $file = dataid2path ( $pasteid ).$pasteid.$aConfig[ 'salt_append' ];
     return getSaltFromFile($file);
 }
 

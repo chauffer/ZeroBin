@@ -424,7 +424,7 @@ function send_data() {
     };
     $.post(scriptLocation(), data_to_send, 'json')
             .error(function() {
-        showError('Data could not be sent (serveur error or not responding).');
+        showError('Data could not be sent (server error or not responding).');
     })
             .success(function(data) {
         if (data.status == 0) {
