@@ -174,7 +174,7 @@ function setElementText(element, text, isDataUrl) {
     if ($('div#oldienotice').is(":visible")) {
         // IE<10 does not support white-space:pre-wrap; so we have to do this BIG UGLY STINKING THING.
         var html = htmlEntities(text).replace(/\n/ig, "\r\n<br>");
-        element.html('<pre>' + html + '</pre>');
+        element.html('<span class="monospaced">' + html + '</span>');
     }
     // for other (sane) browsers:
     else {
@@ -195,15 +195,16 @@ function setElementText(element, text, isDataUrl) {
  */
 function applySyntaxColoring() {
     hljs.highlightBlock(document.getElementById('cleartext'));
-    $('div#cleartext').css('padding', '0'); // Remove white padding around code box.
+    $('div#cleartext').css('padding', '2'); // Remove white padding around code box.
 }
 
 function addLineNumbers() {
-    cleartext = $('div#cleartext > pre > code');
+    cleartext = $('div#cleartext');
     newtext = cleartext.html()
         .replace( /(\r?\n)/g, "</li>$1<li class=\"line\">");
     newtext = "<ol><li class=\"line\">" + newtext + "</li></ol>";
     cleartext.html(newtext);
+    console.log(newtext);
 }
 
 /**
@@ -226,6 +227,7 @@ function displayMessages(key, comments) {
 
             if(isText)
             {
+		console.log("is text");
                 addLineNumbers();
             }
             document.getElementById('download').setAttribute('href', cleartext);
@@ -267,7 +269,7 @@ function displayMessages(key, comments) {
     if (comments[0].meta.syntaxcoloring)
     {
         applySyntaxColoring();	
-        //addLineNumbers();
+        addLineNumbers();
     }
     // Display paste expiration.
     if (comments[0].meta.expire_date)
@@ -539,7 +541,7 @@ function rawText()
 {
     var paste = $('div#cleartext').html();
     var newDoc = document.open('text/html', 'replace');
-    newDoc.write('<pre>'+paste+'</pre>');
+    newDoc.write('<span class="monospaced">'+paste+'</span>');
     newDoc.close();
 }
 

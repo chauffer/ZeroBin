@@ -391,29 +391,44 @@ pre a:hover {
 #attachfile input[type=file],a{border:0px;color:#fff;}
 #uploadPreview{ position:absolute;z-index:1;margin:10px 7px; border:4px solid #eee;max-width:900px;max-height:400px}
 #downloadButton{padding:7px;}
-/*
-pre {
+
+
+.monospaced {
+  font-family: monospace;
+  display: block;
   counter-reset: lines;
 }
 
-pre .line {
+span.cleartext {
+  counter-reset: lines;
+}
+
+li .line {
   counter-increment: lines;
 }
 
-pre .line::before {
+span .line::before {
   content: counter(lines); text-align: right;
   display: inline-block; width: 2em;
-  padding-right: 0.5em; margin-right: 0.5em;
+  padding-right: 0.5em; margin-right: 0;
   color: #BBB; border-right: solid 1px;
 }
-*/
-pre ol {
+
+ol {
     list-style:decimal outside none;
-    margin: 0;
-    padding: 0;
+    margin: 0px;
+    padding: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-left: 0px;
+    margin-bottom:0px; 
 }
-pre ol li {
+ol li {
     font-weight: normal; vertical-align:top;
-    margin: 0;
-    padding: 0;
+    margin: 0px;
+    padding: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-left: 0px;
+    margin-bottom:0px; 
 }
